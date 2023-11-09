@@ -75,17 +75,21 @@ def classify_images(images_dir, results_dic, model):
     #defining empty dictionary
     
     for key in results_dic:
-        path_filename = results_dic[key][images_dir]
-        model = results_dic[key][model]
-        model_label = classifier(path_filename,model)
-        model_label = model_label.lower().strip()
+        model_label: ""
+        classified= classifier(images_dir+key,model)
+        low_pet_image= classified.lower()
+        
+        word_list_pet_image = low_pet_image
+        
+        low_pet_image = low_pet_image.strip()
+        model_label = low_pet_image
         
         truth = results_dic[key][0]
         
-        if truth in model_label: #extend list function to add an exact match if pet image label is found
-            results_dic[key].extend([model_label, 1])
+        if truth in model_label:
+            results_dic[key].extend((model_label, 0))
         else:
-            results_dic[key].extend([model_label, 0])
+            results_dic[key].extend((model_label, 1))
  
     print(results_dic)
         
